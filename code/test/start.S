@@ -153,7 +153,8 @@ __main:
         j       $31
         .end    __main
 
-
+/*creating the system calls for the added methods PutChar, PutString, GetChar and GetString */
+/*#ifdef CHANGED */
 	.globl PutChar
 	.ent	PutChar
 PutChar:
@@ -185,6 +186,8 @@ GetString:
 	syscall
 	j	$31
 	.end GetString
+
+/*#endif changed */
 
 
 

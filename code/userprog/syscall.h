@@ -34,6 +34,7 @@
 #define SC_Yield	10
 
 #ifdef CHANGED
+//adding system call codes for the additional methods
 #define SC_PutChar 11
 #define SC_PutString 12
 #define SC_GetChar 13
@@ -143,6 +144,7 @@ void Fork (void (*func) ());
 void Yield ();
 
 #ifdef CHANGED
+//Adding the signature of the methods  
 void PutChar(char c);
 void PutString(char *s);
 int GetChar();
