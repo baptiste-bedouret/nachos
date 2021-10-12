@@ -60,29 +60,4 @@ void ConsoleDriver::GetString(char *s, int n){
    }
    s[index] = '\0';
 }
-
-/*
-int copyStringFromMachine(int from, char *to, unsigned size){
-    
-    int i = 0;
-    for(; i < size; i++){
-        int chToCopy;
-        char val = machine->ReadMem(from+i,1,&chToCopy); //(address,size=1,);
-        char ch = (char)chToCopy; 
-        strcat(to, &ch);
-
-        if((char)chToCopy == '\0'){
-            break;
-        }
-    }
-    if(to[i] == '\0'){
-        return i;
-    }else{
-        char end ='\0';
-        strcat(to,&end);
-        return i+1;
-    } 
-
-}
-*/
 #endif // CHANGED

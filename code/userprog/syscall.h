@@ -42,7 +42,7 @@
 
 #define MAX_STRING_SIZE 20
 
-#endif
+#endif //changed
 
 #ifdef IN_USER_MODE
 
