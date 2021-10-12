@@ -53,8 +53,8 @@ void ConsoleDriver::PutString(const char s[]){
 void ConsoleDriver::GetString(char *s, int n){
    int ch = GetChar();
    int index = 0;
-   while(ch != '\0' && index < n){
-       s[index] = ch;
+   while(ch != '\n' && index < n){
+       s[index] = (char)ch;
        ch = GetChar();
        index++;
    }

@@ -2,8 +2,8 @@
 
 int 
 main(){
-    char *s;
-    GetString(s,5);
+    char s[MAX_STRING_SIZE];
+    GetString(s,MAX_STRING_SIZE);
     PutString(s);
     Halt();
 }
