@@ -66,6 +66,14 @@ UpdatePC ()
 
 char buffer[MAX_STRING_SIZE];
 
+/**
+ * @brief copy the content of the address (from) to the pointer (to).
+ * 
+ * @param from : the memory address of the string 
+ * @param to : the pointer where the string will be stored
+ * @param size : the size of the string to copy limited by the size of the buffer
+ * @return int : the size of the string stored in (to)
+ */
 static int copyStringFromMachine(int from, char *to, unsigned size){
     
     int i = 0;
@@ -88,8 +96,15 @@ static int copyStringFromMachine(int from, char *to, unsigned size){
 
 }
 
+/**
+ * @brief Stores a string at a specific address, we used the method (WriteMem) to store the string
+ * 
+ * @param address : the address to store the string in.
+ * @param size : the size of the string limited by the buffer size.
+ * @param values : the string to store in the address.
+ * @return int : the address of the stored string
+ */
 static int copyStringToMachine(int address, int size, char *values){
-	//WriteMem(int addr, int size, int value)
 	int index = 0;
 	bool resOfWriteMem = true;
 	while(index < size && values[index] != '\0' && resOfWriteMem && values[index] != '\n'){
@@ -116,6 +131,7 @@ ExceptionHandler (ExceptionType which)
 		case SC_PutChar:
 		{
 			DEBUG('s',"PutChar\n ");
+			//using PutChar to write down the content of the register 4 
 			consoledriver->PutChar(machine->ReadRegister(4));
 		    break;
 		}
@@ -124,7 +140,9 @@ ExceptionHandler (ExceptionType which)
 		{
 			
 			DEBUG('s',"PutString\n ");
+			//Using copyStringFromMachine to copy the strinng from reg(4) to the buffer
 			copyStringFromMachine(machine->ReadRegister(4),buffer,MAX_STRING_SIZE);
+			//Using PutString to write the content of the buffer
 			consoledriver->PutString(buffer);
 			break;
 
@@ -133,7 +151,9 @@ ExceptionHandler (ExceptionType which)
 		case SC_GetChar:
 		{
 			DEBUG('s',"GetChar\n ");
+			//Reading the character using GetChar
 			int ch = consoledriver->GetChar();
+			//Saving the character in the reg(2)
 			machine->WriteRegister(2,ch);
 			break;
 		}
@@ -142,9 +162,10 @@ ExceptionHandler (ExceptionType which)
 		{
 			
 			DEBUG('s',"GetString\n ");
+			//Reading the string and puting it in the buffer
 			consoledriver->GetString(buffer, MAX_STRING_SIZE);
+			//Copying the string from the buffer to the reg(4)
 			copyStringToMachine(machine->ReadRegister(4),strlen(buffer),buffer); 
-			//machine->WriteRegister(2,machine->ReadRegister(4));
 			break;
 		}
 		

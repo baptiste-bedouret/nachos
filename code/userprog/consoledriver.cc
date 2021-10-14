@@ -22,34 +22,46 @@ ConsoleDriver::~ConsoleDriver()
     delete writeDone;
     delete readAvail;
 }
-
+/**
+ * @brief Uses console->TX to write one character (ch)
+ * 
+ * @param ch : the character to be written.
+ */
 void ConsoleDriver::PutChar(int ch){
     char chToPut = (char)(ch);
     console->TX (chToPut);
     writeDone->P ();
 }
 
+/**
+ * @brief Reads one character using console->RX()
+ * 
+ * @return int : the character read by the method
+ */
 int ConsoleDriver::GetChar(){
     readAvail->P ();
     char ch = console->RX ();
 
     return (int)(ch);
 }
-
+/**
+ * @brief Writes a string of characters by calling PutChar multiple times 
+ * 
+ * @param s : the string to be written.
+ */
 void ConsoleDriver::PutString(const char s[]){
-    /*
-    for(int i =0; i < sizeof(s); i++){
-        char chToPut = s[i];
-        PutChar((int) chToPut);
-    }
-    */
    int i =0;
    while(s[i] !='\0'){
        PutChar(s[i++]);
    } 
-
-    
 }
+
+/**
+ * @brief Reads from input a string of characters and stores it in the pointer (s)
+ * 
+ * @param s : pointer to a string 
+ * @param n : the size of the string to read
+ */
 void ConsoleDriver::GetString(char *s, int n){
    int ch = GetChar();
    int index = 0;
@@ -60,29 +72,4 @@ void ConsoleDriver::GetString(char *s, int n){
    }
    s[index] = '\0';
 }
-
-/*
-int copyStringFromMachine(int from, char *to, unsigned size){
-    
-    int i = 0;
-    for(; i < size; i++){
-        int chToCopy;
-        char val = machine->ReadMem(from+i,1,&chToCopy); //(address,size=1,);
-        char ch = (char)chToCopy; 
-        strcat(to, &ch);
-
-        if((char)chToCopy == '\0'){
-            break;
-        }
-    }
-    if(to[i] == '\0'){
-        return i;
-    }else{
-        char end ='\0';
-        strcat(to,&end);
-        return i+1;
-    } 
-
-}
-*/
 #endif // CHANGED
