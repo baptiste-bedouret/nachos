@@ -187,6 +187,24 @@ GetString:
 	j	$31
 	.end GetString
 
+	.globl ThreadCreate
+	.ent	ThreadCreate
+ThreadCreate:
+	addiu $2,$0,SC_ThreadCreate
+	syscall
+	j	$31
+	.end ThreadCreate
+
+	.globl ThreadExit
+	.ent	ThreadExit
+ThreadExit:
+	addiu $2,$0,SC_ThreadExist
+	syscall
+	j	$31
+	.end ThreadExit
+
+
+
 /*#endif changed */
 
 
