@@ -90,6 +90,8 @@ class Thread:public dontcopythis
     // NOTE -- thread being deleted
     // must not be running when delete 
     // is called
+    int ThreadCreate(void f(void *arg), void *arg);
+    void ThreadExit(void);
 
     // basic thread operations
 
