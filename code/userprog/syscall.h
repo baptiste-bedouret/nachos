@@ -154,6 +154,10 @@ void GetString(char *s, int n);
 int ThreadCreate(void f(void *arg), void *arg);
 void ThreadExit(void);
 
+//td02
+int ThreadCreate(void f(void *arg), void *arg);
+void ThreadExit(void);
+
 #endif //changed
 
 #endif // IN_USER_MODE
