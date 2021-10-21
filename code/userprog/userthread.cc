@@ -1,6 +1,7 @@
 #ifdef CHANGED
 
 #include "userthread.h"
+#include "system.h"
 
 extern int do_ThreadCreate(int f, int arg){
     Thread *newThread= new Thread("userthread");
