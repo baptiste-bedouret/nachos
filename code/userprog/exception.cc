@@ -24,6 +24,7 @@
 #include "copyright.h"
 #include "system.h"
 #include "syscall.h"
+#include "userthread.h"
 
 //----------------------------------------------------------------------
 // UpdatePC : Increments the Program Counter register in order to resume
@@ -168,7 +169,16 @@ ExceptionHandler (ExceptionType which)
 			copyStringToMachine(machine->ReadRegister(4),strlen(buffer),buffer); 
 			break;
 		}
+
+		case SC_ThreadCreate:
+		{
+
+		}
 		
+		case SC_ThreadExist:
+		{
+
+		}
 		#endif //changed	
 
 		case SC_Halt:
