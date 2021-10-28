@@ -14,5 +14,9 @@
 
 extern int do_ThreadCreate(int f, int arg);
 
-#endif // CONSOLEDRIVER_H
+static void StartUserThread(void *schmurtz);
+
+extern int do_ThreadExit(int f, int arg);
+
+#endif // USERTHREAD_H
 #endif // CHANGED
