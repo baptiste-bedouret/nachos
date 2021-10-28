@@ -40,7 +40,7 @@
 #define SC_GetChar 13
 #define SC_GetString 14
 #define SC_ThreadCreate 15
-#define SC_ThreadExist 16
+#define SC_ThreadExit 16
 
 
 #define MAX_STRING_SIZE 20
@@ -152,7 +152,7 @@ void PutString(char *s);
 int GetChar();
 void GetString(char *s, int n);
 int ThreadCreate(void f(void *arg), void *arg);
-void ThreadExit(void);
+void ThreadExit();
 
 #endif //changed
 

@@ -172,11 +172,15 @@ ExceptionHandler (ExceptionType which)
 
 		case SC_ThreadCreate:
 		{
+			do_ThreadCreate(machine->ReadRegister(4), machine->ReadRegister(5));
+			break;
 
 		}
 		
-		case SC_ThreadExist:
+		case SC_ThreadExit:
 		{
+			do_ThreadExit();
+			break;
 
 		}
 		#endif //changed	

@@ -291,10 +291,11 @@ void AddrSpace::RestoreState()
     machine->currentPageTableSize = numPages;
 }
 
-int AddrSpace::AllocateUserStack(VoidFunctionPtr func, void *arg)
+#ifdef CHANGED
+unsigned long AddrSpace::AllocateUserStack()
 {
-    userstack = (unsigned long *)AllocBoundedArray(StackSize * sizeof(unsigned long));
-    userstack_size = StackSize * sizeof(unsigned long);
-    userstackTop = userstack + userstack_size - 256;
-    return userstackTop;
+    
+    return numPages*PageSize;
 }
+#endif
+
