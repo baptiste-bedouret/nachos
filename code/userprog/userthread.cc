@@ -3,28 +3,29 @@
 #include "userthread.h"
 #include "system.h"
 
-typedef struct {
+typedef struct
+{
     int f;
     int arg;
 } MyFunction;
 
 extern int do_ThreadCreate(int f, int arg)
 {
-    MyFunction *function = (MyFunction*) malloc(sizeof(MyFunction));
+    MyFunction *function = (MyFunction *)malloc(sizeof(MyFunction));
     function->f = f;
     function->arg = arg;
 
     Thread *newThread = new Thread("userthread");
     newThread->space = currentThread->space;
     newThread->Start(StartUserThread, function);
-    
+
     currentThread->Yield();
     return 0;
 }
 
 static void StartUserThread(void *schmurtz)
-{   
-    MyFunction *function = (MyFunction*) schmurtz;
+{
+    MyFunction *function = (MyFunction *)schmurtz;
     int i;
 
     for (i = 0; i < NumTotalRegs; i++)
@@ -46,11 +47,14 @@ static void StartUserThread(void *schmurtz)
     DEBUG('a', "Initializing stack register to 0x%x\n",
           currentThread->space->AllocateUserStack() - 256 - 16);
 
+    machine->DumpMem("threads.svg");
+
     machine->Run();
 }
 
 extern void do_ThreadExit()
 {
     currentThread->Finish();
+    free(currentThread->space);
 }
 #endif //changed
