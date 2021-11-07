@@ -19,7 +19,6 @@
 #include "noff.h"
 #include "list.h"
 
-
 #define UserStacksAreaSize 1024 // increase this as necessary!
 
 class AddrSpace : public dontcopythis
@@ -35,9 +34,9 @@ public:
 
   void SaveState();    // Save/restore address space-specific
   void RestoreState(); // info on a context switch
-  /*#ifdef CHANGED
-  unsigned long AllocateUserStack();
-  #endif*/
+#ifdef CHANGED
+  unsigned int AllocateUserStack();
+#endif
 
   unsigned Dump(FILE *output, unsigned addr_s, unsigned sections_x, unsigned virtual_x, unsigned virtual_width,
                 unsigned physical_x, unsigned virtual_y, unsigned y,
@@ -56,7 +55,5 @@ private:
 };
 
 extern List AddrspaceList;
-
-
 
 #endif // ADDRSPACE_H
