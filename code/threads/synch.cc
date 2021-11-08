@@ -132,33 +132,55 @@ Lock::Release ()
 
 Condition::Condition (const char *debugName)
 {
-    (void) debugName;
-    /* TODO */
-    ASSERT(FALSE);
+    name = debugName;
+    waitingThreads = new List;
 }
 
 Condition::~Condition ()
 {
+    delete waitingThreads;
+    waitingThreads = NULL;
 }
 void
 Condition::Wait (Lock * conditionLock)
 {
-    (void) conditionLock;
-    /* TODO */
-    ASSERT (FALSE);
+    IntStatus oldLevel = interrupt->SetLevel (IntOff);
+
+    ASSERT(conditionLock->isHeldByCurrentThread());
+    conditionLock->Release();
+    waitingThreads->Append ((void *) currentThread)
+    currentThread->Sleep ();
+    conditionLock->Acquire();
+
+    (void) interrupt->SetLevel (oldLevel);
 }
 
 void
 Condition::Signal (Lock * conditionLock)
 {
-    (void) conditionLock;
-    /* TODO */
-    ASSERT(FALSE);
+    IntStatus oldLevel = interrupt->SetLevel (IntOff);
+
+    ASSERT(conditionLock->isHeldByCurrentThread());
+    conditionLock->Release();
+    thread = (Thread *) queue->Remove ();
+    if (thread != NULL){
+        scheduler->ReadyToRun (thread);
+    }
+
+    (void) interrupt->SetLevel (oldLevel);
 }
 void
 Condition::Broadcast (Lock * conditionLock)
 {
-    (void) conditionLock;
-    /* TODO */
-    ASSERT(FALSE);
+    IntStatus oldLevel = interrupt->SetLevel (IntOff);
+
+    ASSERT(conditionLock->isHeldByCurrentThread());
+    conditionLock->Release();
+    thread = (Thread *) queue->Remove ();
+    while (thread != NULL){
+        scheduler->ReadyToRun (thread);
+        thread = (Thread *) queue->Remove ();
+    }
+
+    (void) interrupt->SetLevel (oldLevel);
 }

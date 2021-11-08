@@ -198,7 +198,7 @@ ThreadCreate:
 	.globl ThreadExit
 	.ent	ThreadExit
 ThreadExit:
-	addiu $2,$0,SC_ThreadExist
+	addiu $2,$0,SC_ThreadExit
 	syscall
 	j	$31
 	.end ThreadExit

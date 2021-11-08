@@ -8,7 +8,8 @@ void test_putchar(void *arg)
 
 int main()
 {
-    ThreadCreate(test_putchar, (void *)'a');
-
+    ThreadCreate(test_putchar, (void *)'b');
+    ThreadExit();
+    PutChar('c');
     Halt();
 }

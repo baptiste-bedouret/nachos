@@ -9,8 +9,11 @@ typedef struct
     int arg;
 } MyFunction;
 
+static Thread *threadPrincipal; 
+
 extern int do_ThreadCreate(int f, int arg)
 {
+    threadPrincipal = currentThread;
     MyFunction *function = (MyFunction *)malloc(sizeof(MyFunction));
     function->f = f;
     function->arg = arg;
@@ -55,6 +58,5 @@ static void StartUserThread(void *schmurtz)
 extern void do_ThreadExit()
 {
     currentThread->Finish();
-    free(currentThread->space);
 }
 #endif //changed
