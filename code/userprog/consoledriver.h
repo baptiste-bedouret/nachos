@@ -4,6 +4,9 @@
 #include "copyright.h"
 #include "utility.h"
 #include "console.h"
+
+#include "synch.h"
+
 class ConsoleDriver:dontcopythis {
 
     public:
@@ -19,6 +22,7 @@ class ConsoleDriver:dontcopythis {
 
     private:
     Console *console;
+    Semaphore *threadSem;
 };
 
 #endif // CONSOLEDRIVER_H

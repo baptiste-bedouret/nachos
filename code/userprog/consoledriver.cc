@@ -15,12 +15,14 @@ ConsoleDriver::ConsoleDriver(const char *in, const char *out)
     readAvail = new Semaphore("read avail", 0);
     writeDone = new Semaphore("write done", 0);
     console = new Console (in, out, ReadAvailHandler, WriteDoneHandler, NULL);
+    threadSem = new Semaphore("thread sem", 1);
 }
 ConsoleDriver::~ConsoleDriver()
 {
     delete console;
     delete writeDone;
     delete readAvail;
+    delete threadSem;
 }
 /**
  * @brief Uses console->TX to write one character (ch)
@@ -28,9 +30,11 @@ ConsoleDriver::~ConsoleDriver()
  * @param ch : the character to be written.
  */
 void ConsoleDriver::PutChar(int ch){
+    threadSem->P();
     char chToPut = (char)(ch);
     console->TX (chToPut);
     writeDone->P ();
+    threadSem->V();
 }
 
 /**
@@ -39,9 +43,10 @@ void ConsoleDriver::PutChar(int ch){
  * @return int : the character read by the method
  */
 int ConsoleDriver::GetChar(){
+    threadSem->P();
     readAvail->P ();
     char ch = console->RX ();
-
+    threadSem->V();
     return (int)(ch);
 }
 /**

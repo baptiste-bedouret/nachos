@@ -9,7 +9,10 @@ typedef struct
     int arg;
 } MyFunction;
 
-static Thread *threadPrincipal; 
+static Thread *threadPrincipal;
+
+static unsigned nbThread = 0;
+static Semaphore *semCounter = new Semaphore("thread counter", 1);;
 
 extern int do_ThreadCreate(int f, int arg)
 {
@@ -19,6 +22,9 @@ extern int do_ThreadCreate(int f, int arg)
     function->arg = arg;
 
     Thread *newThread = new Thread("userthread");
+    semCounter->P();
+    nbThread++;
+    semCounter->V();
     newThread->space = currentThread->space;
     newThread->Start(StartUserThread, function);
 
@@ -57,6 +63,14 @@ static void StartUserThread(void *schmurtz)
 
 extern void do_ThreadExit()
 {
-    currentThread->Finish();
+    semCounter->P();
+    if(nbThread == 0){
+        semCounter->V();
+        interrupt->Powerdown ();
+    }else{
+        nbThread--;
+        semCounter->V();
+        currentThread->Finish();
+    }
 }
 #endif //changed
