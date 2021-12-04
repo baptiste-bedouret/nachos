@@ -12,6 +12,7 @@
 #include <malloc.h>
 #endif
 
+
 // This defines *all* of the global data structures used by Nachos.
 // These are all initialized and de-allocated by this file.
 
@@ -30,6 +31,8 @@ ConsoleDriver *consoledriver;
 #endif
 #endif
 
+
+
 #ifdef FILESYS_NEEDED
 FileSystem *fileSystem;
 #endif
@@ -40,6 +43,12 @@ SynchDisk *synchDisk;
 
 #ifdef USER_PROGRAM		// requires either FILESYS or FILESYS_STUB
 Machine *machine;		// user program memory and registers
+#endif
+
+#ifdef CHANGED
+#ifdef USER_PROGRAM
+PageProvider *pageProv;
+#endif
 #endif
 
 #ifdef NETWORK

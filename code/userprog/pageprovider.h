@@ -1,18 +1,23 @@
-#ifdef CHANGED
-#include "machine.h"
+#ifndef PAGEPROVIDER_H
+#define PAGEPROVIDER_H
+
 #include "bitmap.h"
 
+#ifdef CHANGED
 class PageProvider
 {
 private:
-    BitMap memoryMap;
+    BitMap *memoryMap;
 public:
-    PageProvider(/* args */);
+    PageProvider(int nbPages);
     ~PageProvider();
 
     unsigned int GetEmptyPage();
     void ReleasePage(unsigned int page);
     unsigned int NumAvailPage();
+    unsigned int GetRandomPage();
 };
 
 #endif //changed
+
+#endif

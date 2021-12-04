@@ -44,10 +44,20 @@ extern ConsoleDriver *consoledriver;
 #endif
 #endif
 
+
+
 #ifdef USER_PROGRAM
 #include "machine.h"
 extern Machine *machine;	// user program memory and registers
 #endif
+
+#ifdef CHANGED
+#ifdef USER_PROGRAM
+#include "../userprog/pageprovider.h"
+extern PageProvider *pageProv;
+#endif
+#endif
+
 
 #ifdef FILESYS_NEEDED		// FILESYS or FILESYS_STUB
 #include "filesys.h"

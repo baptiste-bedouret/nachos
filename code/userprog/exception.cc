@@ -25,6 +25,7 @@
 #include "system.h"
 #include "syscall.h"
 #include "userthread.h"
+#include "userproc.h"
 
 //----------------------------------------------------------------------
 // UpdatePC : Increments the Program Counter register in order to resume
@@ -182,6 +183,13 @@ ExceptionHandler (ExceptionType which)
 			do_ThreadExit();
 			break;
 
+		}
+
+		case SC_ForkExec:
+		{
+			copyStringFromMachine(machine->ReadRegister(4),buffer,MAX_STRING_SIZE);
+			do_ForkExec(buffer);
+			break;
 		}
 		#endif //changed	
 

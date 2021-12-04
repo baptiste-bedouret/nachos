@@ -15,7 +15,7 @@ int main()
     ThreadCreate(test_putchar, (void *)'a');
     ThreadCreate(test_putchar, (void *)'b');
     ThreadCreate(test_putchar, (void *)'c');
-    for(i=0;i<100;i++){
+    for(i=0;i<10;i++){
         ThreadCreate(test_putchar, (void *)'c');
     }
     

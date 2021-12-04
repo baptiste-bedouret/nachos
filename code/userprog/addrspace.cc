@@ -122,7 +122,8 @@ AddrSpace::AddrSpace(OpenFile *executable)
     pageTable = new TranslationEntry[numPages];
     for (i = 0; i < numPages; i++)
     {
-        pageTable[i].physicalPage = i+1; // for now, phys page # = virtual page #
+        //pageTable[i].physicalPage = pageProv->GetRandomPage(); // for now, phys page # = virtual page #
+        pageTable[i].physicalPage = pageProv->GetEmptyPage();
         pageTable[i].valid = TRUE;
         pageTable[i].use = FALSE;
         pageTable[i].dirty = FALSE;
@@ -154,6 +155,8 @@ AddrSpace::AddrSpace(OpenFile *executable)
     pageTable[0].valid = FALSE; // Catch NULL dereference
 
     AddrSpaceList.Append(this);
+
+    machine->DumpMem("addrspace.svg");
 }
 
 //----------------------------------------------------------------------
@@ -163,9 +166,13 @@ AddrSpace::AddrSpace(OpenFile *executable)
 
 AddrSpace::~AddrSpace()
 {
+    
+    for (int i = 0; i < numPages; i++){
+        pageProv->ReleasePage(pageTable[i].physicalPage);
+
+    }
     delete[] pageTable;
     pageTable = NULL;
-
     AddrSpaceList.Remove(this);
 }
 

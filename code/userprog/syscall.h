@@ -42,6 +42,8 @@
 #define SC_ThreadCreate 15
 #define SC_ThreadExit 16
 
+#define SC_ForkExec 17
+
 
 #define MAX_STRING_SIZE 20
 
@@ -153,6 +155,8 @@ int GetChar();
 void GetString(char *s, int n);
 int ThreadCreate(void f(void *arg), void *arg);
 void ThreadExit();
+
+int ForkExec(const char *s);
 
 #endif //changed
 
