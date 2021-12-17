@@ -145,7 +145,7 @@ AddrSpace::AddrSpace(OpenFile *executable)
         DEBUG('a', "Initializing data segment, at 0x%x, size 0x%x\n",
               noffH.initData.virtualAddr, noffH.initData.size);
         
-        ReadAtVirtual(executable,noffH.code.virtualAddr,noffH.initData.size,noffH.initData.inFileAddr, pageTable, numPages);
+        ReadAtVirtual(executable,noffH.initData.virtualAddr,noffH.initData.size,noffH.initData.inFileAddr, pageTable, numPages);
         //executable->ReadAt(&(machine->mainMemory[noffH.initData.virtualAddr]),noffH.initData.size, noffH.initData.inFileAddr);
     }
 

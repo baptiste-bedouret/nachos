@@ -66,7 +66,6 @@ UpdatePC ()
 //      are in machine.h.
 //----------------------------------------------------------------------
 
-char buffer[MAX_STRING_SIZE];
 
 /**
  * @brief copy the content of the address (from) to the pointer (to).
@@ -76,27 +75,58 @@ char buffer[MAX_STRING_SIZE];
  * @param size : the size of the string to copy limited by the size of the buffer
  * @return int : the size of the string stored in (to)
  */
+
 static int copyStringFromMachine(int from, char *to, unsigned size){
-    
-    int i = 0;
-    for(; i < size; i++){
-        int chToCopy;
-        char val = machine->ReadMem(from+i,1,&chToCopy); //(address,size=1,);
-        char ch = (char)chToCopy; 
+
+    int i;
+	int chToCopy;
+    for(i=0; i < size-1; i++){
+        machine->ReadMem(from+i,1,&chToCopy); //(address,size=1,);
+        char ch = (char)chToCopy;
         to[i] = ch;
 
-        if((char)chToCopy == '\0'){
+        if(ch == '\0'){
             break;
         }
+		
     }
     if(to[i] == '\0'){
         return i;
     }else{
-        to[i] = '\0';
+        to[i+1] = '\0';
         return i+1;
     } 
 
 }
+
+/*
+static int copyStringFromMachine(int from, char *to, unsigned int size)
+{
+  int val;
+  char c;
+  unsigned int i = 0;
+
+  do {
+    // Read 1 char
+    machine->ReadMem(from + i, 1, &val);
+    // ReadMem copy an integer
+    c = (char) val;
+	printf("printing the c before : %s\n",c);
+    to[i] = c;
+    i++;
+  } while(i < size - 1 && c != '\0');
+
+  while(i < size) {
+    to[i] = '\0';
+    i++;
+  }
+
+  return i;
+}
+*/
+
+
+
 
 /**
  * @brief Stores a string at a specific address, we used the method (WriteMem) to store the string
@@ -133,19 +163,24 @@ ExceptionHandler (ExceptionType which)
 		case SC_PutChar:
 		{
 			DEBUG('s',"PutChar\n ");
-			//using PutChar to write down the content of the register 4 
+			//using PutChar to write down the content of the register 4
+			int reg = machine->ReadRegister(4);
 			consoledriver->PutChar(machine->ReadRegister(4));
 		    break;
 		}
 
 		case SC_PutString:
 		{
+
+			char buffer_PutString[MAX_STRING_SIZE];
 			
 			DEBUG('s',"PutString\n ");
 			//Using copyStringFromMachine to copy the strinng from reg(4) to the buffer
-			copyStringFromMachine(machine->ReadRegister(4),buffer,MAX_STRING_SIZE);
+			
+			int reg = machine->ReadRegister(4);
+			copyStringFromMachine(reg,buffer_PutString,MAX_STRING_SIZE);
 			//Using PutString to write the content of the buffer
-			consoledriver->PutString(buffer);
+			consoledriver->PutString(buffer_PutString);
 			break;
 
 		}
@@ -162,7 +197,7 @@ ExceptionHandler (ExceptionType which)
 
 		case SC_GetString:
 		{
-			
+			char buffer[MAX_STRING_SIZE];
 			DEBUG('s',"GetString\n ");
 			//Reading the string and puting it in the buffer
 			consoledriver->GetString(buffer, MAX_STRING_SIZE);
@@ -187,19 +222,23 @@ ExceptionHandler (ExceptionType which)
 
 		case SC_ForkExec:
 		{
+			char buffer[MAX_STRING_SIZE];
+			//printf("printing the reg 4: %s\n",machine->ReadRegister(4));
 			copyStringFromMachine(machine->ReadRegister(4),buffer,MAX_STRING_SIZE);
 			do_ForkExec(buffer);
 			break;
 		}
-		#endif //changed	
 
+		#endif //changed	
+		#ifdef CHANGED
 		case SC_Halt:
 		  {
 		    DEBUG ('s', "Shutdown, initiated by user program.\n");
-		    interrupt->Powerdown ();
+		    //interrupt->Powerdown ();
+			do_ForkExit();
 		    break;
 		  }
-		
+		#endif
 		default:
 		  {
 		    printf("Unimplemented system call %d\n", type);

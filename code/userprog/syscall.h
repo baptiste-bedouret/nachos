@@ -45,7 +45,7 @@
 #define SC_ForkExec 17
 
 
-#define MAX_STRING_SIZE 20
+#define MAX_STRING_SIZE 50
 
 #endif //changed
 
@@ -157,6 +157,7 @@ int ThreadCreate(void f(void *arg), void *arg);
 void ThreadExit();
 
 int ForkExec(const char *s);
+void do_ForkExit();
 
 #endif //changed
 

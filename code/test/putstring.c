@@ -11,13 +11,13 @@
 
 int 
 main(){
-    /*
+    
     //Testint putstring with a string shorter then (MAX_STRING_SIZE=20)
     //Expected: putstring to display the whole string
-    char *s  = "01234567890123456789"; 
+    char *s  = "234567890123456789"; 
     PutString(s);
     Halt();
-    */
+    
     
     /*
     //Testint putstring with a string longer then (MAX_STRING_SIZE=20)
@@ -34,6 +34,7 @@ main(){
     PutString(s);
     Halt();
     */
+    
 
     //Testint putstring when encountring (\0)
     //Expected: to stop printing
@@ -42,5 +43,6 @@ main(){
     PutString(s);
     Halt();
     */
+    
     
 }

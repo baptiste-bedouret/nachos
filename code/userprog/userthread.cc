@@ -11,7 +11,7 @@ typedef struct
 
 static Thread *threadPrincipal;
 
-static unsigned nbThread = 0;
+static unsigned nbThread = 1;
 static Semaphore *semCounter = new Semaphore("thread counter", 1);;
 
 extern int do_ThreadCreate(int f, int arg)

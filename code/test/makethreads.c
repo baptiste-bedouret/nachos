@@ -8,17 +8,18 @@ void test_putchar(void *arg)
 }
 
 volatile int i;
+volatile int N = 20;
+
 
 int main()
 {
     PutChar('z');
     ThreadCreate(test_putchar, (void *)'a');
     ThreadCreate(test_putchar, (void *)'b');
-    ThreadCreate(test_putchar, (void *)'c');
-    for(i=0;i<10;i++){
+    for(i=0;i<N;i++){
         ThreadCreate(test_putchar, (void *)'c');
     }
     
     PutChar('z');
-    ThreadExit();
+    Halt();
 }
